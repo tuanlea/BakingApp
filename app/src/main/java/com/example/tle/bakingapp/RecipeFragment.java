@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public class RecipeFragment extends Fragment {
+public class RecipeFragment extends Fragment implements RecipeItemClickHandler {
 
     private RecyclerView recyclerView;
     private RecipeListAdapter adapter;
@@ -26,7 +26,8 @@ public class RecipeFragment extends Fragment {
         int columnCount = view.getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new GridLayoutManager(
                 this.getActivity().getApplicationContext(), columnCount));
-        adapter = new RecipeListAdapter(this.getActivity().getApplicationContext());
+        adapter = new RecipeListAdapter(this.getActivity().getApplicationContext(),
+                this);
 
         Bundle arguments = getArguments();
         List<Recipe> recipes = arguments.getParcelableArrayList("recipes");
@@ -37,4 +38,10 @@ public class RecipeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void handleRecipeClick(Recipe recipe) {
+        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
+        intent.putExtra("recipe", recipe);
+        startActivity(intent);
+    }
 }

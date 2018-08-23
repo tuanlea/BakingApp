@@ -15,9 +15,12 @@ import java.util.List;
 class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
     private LayoutInflater layoutInflater;
     private List<Recipe> recipes;
+    RecipeItemClickHandler recipeItemClickHandler;
 
-    public RecipeListAdapter(Context applicationContext) {
+    public RecipeListAdapter(Context applicationContext,
+                             RecipeItemClickHandler recipeItemClickHandler) {
         layoutInflater = LayoutInflater.from(applicationContext);
+        this.recipeItemClickHandler = recipeItemClickHandler;
     }
 
     @NonNull
@@ -32,13 +35,20 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecipeHolder holder, int position) {
         if (recipes != null) {
-            Recipe recipe = recipes.get(position);
+            final Recipe recipe = recipes.get(position);
             holder.recipeNameTv.setText(recipe.getName());
 
             String image = recipe.getImage();
             if (!TextUtils.isEmpty(image)) {
                 Picasso.get().load(image).into(holder.recipeImageIv);
             }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recipeItemClickHandler.handleRecipeClick(recipe);
+                }
+            });
         }
     }
 
