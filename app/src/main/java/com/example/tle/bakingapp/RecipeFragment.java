@@ -18,15 +18,17 @@ public class RecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recipe_fragment, container, false);
-
         recyclerView = view.findViewById(R.id.recipes_rv);
+
         int columnCount = view.getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new GridLayoutManager(
                 this.getActivity().getApplicationContext(), columnCount));
         adapter = new RecipeListAdapter(this.getActivity().getApplicationContext());
+
         Bundle arguments = getArguments();
         List<Recipe> recipes = arguments.getParcelableArrayList("recipes");
         adapter.setRecipes(recipes);
+
         recyclerView.setAdapter(adapter);
 
         return view;
