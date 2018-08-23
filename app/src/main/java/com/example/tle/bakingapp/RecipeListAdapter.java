@@ -1,7 +1,6 @@
 package com.example.tle.bakingapp;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,8 +10,6 @@ import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
@@ -37,7 +34,7 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
         if (recipes != null) {
             Recipe recipe = recipes.get(position);
             holder.recipeNameTv.setText(recipe.getName());
-            
+
             String image = recipe.getImage();
             if (!TextUtils.isEmpty(image)) {
                 Picasso.get().load(image).into(holder.recipeImageIv);
