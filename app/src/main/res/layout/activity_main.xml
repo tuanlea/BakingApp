@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recipes_rv"
-        android:layout_width="match_parent"
+    <fragment android:name="com.example.tle.bakingapp.RecipeFragment"
+        android:id="@+id/list"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        tools:listitem="@layout/activity_main_recylerview_item" />
+        android:layout_width="match_parent"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -13,7 +13,7 @@ class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
     private LayoutInflater layoutInflater;
     private List<Recipe> recipes;
 
-    public RecipeListAdapter(Context applicationContext, MainActivity mainActivity) {
+    public RecipeListAdapter(Context applicationContext) {
         layoutInflater = LayoutInflater.from(applicationContext);
     }
 
