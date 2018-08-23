@@ -29,8 +29,9 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.recipe_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.recipes_rv);
+        int columnCount = view.getResources().getInteger(R.integer.column_count);
         recyclerView.setLayoutManager(new GridLayoutManager(
-                this.getActivity().getApplicationContext(), 2));
+                this.getActivity().getApplicationContext(), columnCount));
         adapter = new RecipeListAdapter(this.getActivity().getApplicationContext());
         recyclerView.setAdapter(adapter);
 
