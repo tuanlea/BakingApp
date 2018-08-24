@@ -1,6 +1,5 @@
 package com.example.tle.bakingapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
@@ -12,11 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GetJsonTaskHandler {
 
     private List<Recipe> recipes;
 
@@ -25,44 +23,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new MainActivity.GetJsonAsyncTask().execute();
+        new GetJsonTask(this).execute();
     }
 
 
-    private class GetJsonAsyncTask extends AsyncTask<Void, Void, String> {
+    @Override
+    public void handleJson(String json) {
+        recipes = parseJsonToRecipe(json);
+        // Activity is using layout version with container
+        if (findViewById(R.id.recipe_fragment_container) != null) {
+            RecipeFragment recipeFragment = new RecipeFragment();
 
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                return NetworkUtils.getResponseFromHttpUrl();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("Main Activity", "Failed to get JSON", e);
-            }
-            return "";
-        }
+            // If activity started with Intent, pass extras as args
+            Bundle args = new Bundle();
+            args.putParcelableArrayList("recipes", (ArrayList<? extends Parcelable>) recipes);
+            recipeFragment.setArguments(args);
 
-        @Override
-        protected void onPostExecute(String json) {
-            super.onPostExecute(json);
-            recipes = parseJsonToRecipe(json);
-
-            // Activity is using layout version with container
-            if (findViewById(R.id.recipe_fragment_container) != null) {
-                RecipeFragment recipeFragment = new RecipeFragment();
-
-                // If activity started with Intent, pass extras as args
-                Bundle args = new Bundle();
-                args.putParcelableArrayList("recipes", (ArrayList<? extends Parcelable>) recipes);
-                recipeFragment.setArguments(args);
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.recipe_fragment_container, recipeFragment);
-                fragmentTransaction.commit();
-            }
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.recipe_fragment_container, recipeFragment);
+            fragmentTransaction.commit();
         }
     }
+
 
     private List<Recipe> parseJsonToRecipe(String json) {
         List<Recipe> recipes = new ArrayList<>();
@@ -138,6 +121,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return steps;
     }
-
 
 }
