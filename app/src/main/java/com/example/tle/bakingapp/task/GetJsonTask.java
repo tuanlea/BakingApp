@@ -1,11 +1,13 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.task;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.tle.bakingapp.NetworkUtils;
+
 import java.io.IOException;
 
-class GetJsonTask extends AsyncTask<Void, Void, String> {
+public class GetJsonTask extends AsyncTask<Void, Void, String> {
 
     private final GetJsonTaskHandler getJsonTaskHandler;
 

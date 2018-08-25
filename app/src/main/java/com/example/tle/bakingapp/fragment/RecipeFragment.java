@@ -1,15 +1,19 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.tle.bakingapp.R;
+import com.example.tle.bakingapp.activity.DetailsActivity;
+import com.example.tle.bakingapp.model.Recipe;
+import com.example.tle.bakingapp.task.RecipeItemClickHandler;
+import com.example.tle.bakingapp.task.RecipeListAdapter;
 
 import java.util.List;
 
@@ -40,7 +44,7 @@ public class RecipeFragment extends Fragment implements RecipeItemClickHandler {
 
     @Override
     public void handleRecipeClick(Recipe recipe) {
-        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra("recipe", recipe);
         startActivity(intent);
     }

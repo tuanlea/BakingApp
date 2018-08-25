@@ -1,16 +1,16 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class Step implements Parcelable {
+public class Step implements Parcelable {
     int id;
     String shortDesc;
     String description;
     String videoURL;
     String thumbnailURL;
 
-    Step() {}
+    public Step() {}
 
     protected Step(Parcel in) {
         id = in.readInt();

@@ -1,4 +1,4 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.activity;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -6,6 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.example.tle.bakingapp.R;
+import com.example.tle.bakingapp.fragment.RecipeFragment;
+import com.example.tle.bakingapp.model.Ingredient;
+import com.example.tle.bakingapp.model.Recipe;
+import com.example.tle.bakingapp.model.Step;
+import com.example.tle.bakingapp.task.GetJsonTask;
+import com.example.tle.bakingapp.task.GetJsonTaskHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;

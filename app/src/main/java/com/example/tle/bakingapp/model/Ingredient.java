@@ -1,14 +1,14 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class Ingredient implements Parcelable {
+public class Ingredient implements Parcelable {
     int quantity;
     String measure;
     String ingredientName;
 
-    Ingredient() {}
+    public Ingredient() {}
 
     protected Ingredient(Parcel in) {
         quantity = in.readInt();

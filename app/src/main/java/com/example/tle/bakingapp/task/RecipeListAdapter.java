@@ -1,4 +1,4 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.task;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tle.bakingapp.R;
+import com.example.tle.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeHolder> {
     private LayoutInflater layoutInflater;
     private List<Recipe> recipes;
     RecipeItemClickHandler recipeItemClickHandler;

@@ -1,10 +1,11 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.task;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.tle.bakingapp.R;
 
 class RecipeHolder extends RecyclerView.ViewHolder {
     public TextView recipeNameTv;

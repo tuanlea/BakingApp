@@ -1,11 +1,11 @@
-package com.example.tle.bakingapp;
+package com.example.tle.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
-class Recipe implements Parcelable {
+public class Recipe implements Parcelable {
     int id;
     String name;
     List<Ingredient> ingredientList;
@@ -13,7 +13,7 @@ class Recipe implements Parcelable {
     int servings;
     String image;
 
-    Recipe() {
+    public Recipe() {
     }
 
     protected Recipe(Parcel in) {
