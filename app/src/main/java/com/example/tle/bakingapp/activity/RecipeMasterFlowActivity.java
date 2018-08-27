@@ -18,9 +18,6 @@ import com.example.tle.bakingapp.model.Step;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: On screen rotate, we're lose the current step.
- */
 public class RecipeMasterFlowActivity extends AppCompatActivity
         implements StepListFragment.OnListFragmentInteractionListener {
 
@@ -80,8 +77,9 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Step step) {
-        Toast.makeText(getApplicationContext(), "Fragment interaction: " + step.getId(),
-                Toast.LENGTH_SHORT).show();
+        // Remember the selected step to restore
+        this.step = step;
+
         View detailView = findViewById(R.id.step_details_fragment_container);
         if (detailView == null) {
             // Otherwise, we're in the one-pane layout and must swap frags...
