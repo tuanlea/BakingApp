@@ -16,34 +16,32 @@ import com.example.tle.bakingapp.task.StepListAdapter;
 
 import java.util.List;
 
-public class StepFragment extends Fragment {
+public class StepListFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
-    private List<Step> steps;
+    private List<Step> stepList;
 
-    public StepFragment() {
-    }
-
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
+    public StepListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        stepList = arguments.getParcelableArrayList("stepList");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.step_fragment, container, false);
+        View view = inflater.inflate(R.layout.step_list_fragment, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new StepListAdapter(steps, mListener));
+            recyclerView.setAdapter(new StepListAdapter(stepList, mListener));
         }
         return view;
     }

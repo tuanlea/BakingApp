@@ -10,5 +10,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".fragment.StepFragment"
-    tools:listitem="@layout/step_fragment_item" />
+    tools:context=".fragment.StepListFragment"
+    tools:listitem="@layout/step_list_fragment_item" />

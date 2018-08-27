@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tablet_activity_details_layout"
+    android:id="@+id/tablet_recipe_master_flow_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
@@ -10,10 +10,10 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".activity.DetailsActivity">
+    tools:context=".activity.RecipeMasterFlowActivity">
 
     <FrameLayout
-        android:id="@+id/step_fragment_container"
+        android:id="@+id/step_list_fragment_container"
         android:layout_width="400dp"
         android:layout_height="match_parent"></FrameLayout>
 

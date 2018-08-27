@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tle.bakingapp.R;
-import com.example.tle.bakingapp.activity.DetailsActivity;
+import com.example.tle.bakingapp.activity.RecipeMasterFlowActivity;
 import com.example.tle.bakingapp.model.Recipe;
 import com.example.tle.bakingapp.task.RecipeItemClickHandler;
 import com.example.tle.bakingapp.task.RecipeListAdapter;
@@ -24,7 +24,7 @@ public class RecipeFragment extends Fragment implements RecipeItemClickHandler {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recipe_fragment, container, false);
+        View view = inflater.inflate(R.layout.recipe_list_fragment, container, false);
         recyclerView = view.findViewById(R.id.recipes_rv);
 
         int columnCount = view.getResources().getInteger(R.integer.column_count);
@@ -44,7 +44,7 @@ public class RecipeFragment extends Fragment implements RecipeItemClickHandler {
 
     @Override
     public void handleRecipeClick(Recipe recipe) {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        Intent intent = new Intent(getActivity(), RecipeMasterFlowActivity.class);
         intent.putExtra("recipe", recipe);
         startActivity(intent);
     }

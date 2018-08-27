@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.tle.bakingapp.R;
-import com.example.tle.bakingapp.fragment.StepFragment.OnListFragmentInteractionListener;
+import com.example.tle.bakingapp.fragment.StepListFragment.OnListFragmentInteractionListener;
 import com.example.tle.bakingapp.model.Step;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepHolder> {
     @Override
     public StepHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.step_fragment_item, parent, false);
+                .inflate(R.layout.step_list_fragment_item, parent, false);
         return new StepHolder(view);
     }
 

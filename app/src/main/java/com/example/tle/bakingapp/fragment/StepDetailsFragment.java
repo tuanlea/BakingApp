@@ -20,6 +20,13 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            step = savedInstanceState.getParcelable("step");
+        } else {
+            Bundle arguments = getArguments();
+            step = arguments.getParcelable("step");
+        }
     }
 
     @Nullable
@@ -27,13 +34,9 @@ public class StepDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.step_details_fragment, container, false);
-        if (savedInstanceState != null) {
-            step = savedInstanceState.getParcelable("step");
-        } else {
-            Bundle arguments = getArguments();
-            step = arguments.getParcelable("step");
-        }
-
+        TextView descriptionTv = view.findViewById(R.id.step_details_description_tv);
+        String description = step.getDescription();
+        descriptionTv.setText(description);
         return view;
     }
 
@@ -42,5 +45,11 @@ public class StepDetailsFragment extends Fragment {
         TextView descriptionTv = view.findViewById(R.id.step_details_description_tv);
         String description = step.getDescription();
         descriptionTv.setText(description);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("step", step);
     }
 }
