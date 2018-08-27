@@ -32,7 +32,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepHolder> {
     @Override
     public void onBindViewHolder(final StepHolder holder, int position) {
         final Step step = steps.get(position);
-        holder.recipeNameTv.setText(step.getDescription());
+        holder.recipeNameTv.setText(step.getShortDesc());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +48,9 @@ public class StepListAdapter extends RecyclerView.Adapter<StepHolder> {
 
     @Override
     public int getItemCount() {
+        if (steps == null) {
+            return 0;
+        }
         return steps.size();
     }
 
