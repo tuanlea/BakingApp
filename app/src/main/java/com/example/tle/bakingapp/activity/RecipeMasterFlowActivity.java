@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.tle.bakingapp.R;
+import com.example.tle.bakingapp.fragment.IngredientFragment;
 import com.example.tle.bakingapp.fragment.StepDetailsFragment;
 import com.example.tle.bakingapp.fragment.StepListFragment;
+import com.example.tle.bakingapp.model.Ingredient;
 import com.example.tle.bakingapp.model.Recipe;
 import com.example.tle.bakingapp.model.Step;
 
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeMasterFlowActivity extends AppCompatActivity
-        implements StepListFragment.OnListFragmentInteractionListener {
+        implements StepListFragment.OnListFragmentInteractionListener,
+            IngredientFragment.OnListFragmentInteractionListener {
 
     Recipe recipe;
     Step step;
@@ -53,7 +56,11 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.step_list_fragment_container, stepListFragment);
-        fragmentTransaction.commit();
+
+        // Ingredients fragment
+        IngredientFragment ingredientFragment =
+                IngredientFragment.newInstance(this.recipe.getIngredientList());
+        fragmentTransaction.replace(R.id.ingredient_list_fragment_container, ingredientFragment);
 
         // Step details fragment
         View view = findViewById(R.id.step_details_fragment_container);
@@ -69,10 +76,10 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
             stepDetailsFragment.setArguments(arguments);
 
-            fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.step_details_fragment_container, stepDetailsFragment);
-            fragmentTransaction.commit();
         }
+
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -110,9 +117,14 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
     }
 
     @Override
+    public void onListFragmentInteraction(Ingredient ingredient) {
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(recipeParcelName, recipe);
         outState.putParcelable("step", this.step);
     }
+
 }
