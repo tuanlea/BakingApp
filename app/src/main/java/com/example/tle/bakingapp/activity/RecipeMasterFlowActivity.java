@@ -2,7 +2,6 @@ package com.example.tle.bakingapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +16,6 @@ import com.example.tle.bakingapp.model.Ingredient;
 import com.example.tle.bakingapp.model.Recipe;
 import com.example.tle.bakingapp.model.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeMasterFlowActivity extends AppCompatActivity
@@ -50,15 +48,11 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             setTitle(name);
         }
 
-        List<Step> stepList = this.recipe.getStepList();
-
-        Bundle arguments = new Bundle();
-        arguments.putParcelableArrayList("stepList", (ArrayList<? extends Parcelable>) stepList);
-        StepListFragment stepListFragment = new StepListFragment();
-        stepListFragment.setArguments(arguments);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        List<Step> stepList = this.recipe.getStepList();
+        StepListFragment stepListFragment = StepListFragment.newInstance(stepList);
         fragmentTransaction.replace(R.id.step_list_fragment_container, stepListFragment);
 
         // Ingredients fragment
@@ -68,13 +62,9 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
         // Step details fragment
         View view = findViewById(R.id.step_details_fragment_container);
-        isOnePane = true;
-        if (view != null) {
-           isOnePane = false;
-        }
-
+        isOnePane = (view == null);
         if (!isOnePane) {
-            arguments = new Bundle();
+            Bundle arguments = new Bundle();
             // default to first step
             if (step == null) {
                 step = stepList.get(0);
@@ -105,9 +95,11 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             // If article frag is available, we're in two-pane layout...
 
             // update the fragment view
-            StepDetailsFragment stepDetailsFragment = (StepDetailsFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.step_details_fragment_container);
-            stepDetailsFragment.updateStepDetailsView(step);
+            StepDetailsFragment stepDetailsFragment = StepDetailsFragment.newInstance(step);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.step_details_fragment_container, stepDetailsFragment);
+            fragmentTransaction.commit();
         }
     }
 

@@ -1,7 +1,6 @@
 package com.example.tle.bakingapp.fragment;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,11 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.tle.bakingapp.model.Step;
 import com.example.tle.bakingapp.R;
+import com.example.tle.bakingapp.model.Step;
 
 public class StepDetailsFragment extends Fragment {
     Step step;
+
+    public static StepDetailsFragment newInstance(Step step) {
+        Bundle arguments = new Bundle();
+        arguments.putParcelable("step", step);
+        StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+        stepDetailsFragment.setArguments(arguments);
+        return stepDetailsFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +53,4 @@ public class StepDetailsFragment extends Fragment {
         outState.putParcelable("step", step);
     }
 
-    public void updateStepDetailsView(Step step) {
-        View view = getView();
-        TextView descriptionTv = view.findViewById(R.id.step_details_description_tv);
-        String description = step.getDescription();
-        descriptionTv.setText(description);
-    }
 }

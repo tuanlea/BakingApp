@@ -2,6 +2,7 @@ package com.example.tle.bakingapp.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.example.tle.bakingapp.R;
 import com.example.tle.bakingapp.model.Step;
 import com.example.tle.bakingapp.task.StepListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StepListFragment extends Fragment {
@@ -22,6 +24,14 @@ public class StepListFragment extends Fragment {
     private List<Step> stepList;
 
     public StepListFragment() {
+    }
+
+    public static StepListFragment newInstance(List<Step> stepList) {
+        Bundle arguments = new Bundle();
+        arguments.putParcelableArrayList("stepList", (ArrayList<? extends Parcelable>) stepList);
+        StepListFragment stepListFragment = new StepListFragment();
+        stepListFragment.setArguments(arguments);
+        return stepListFragment;
     }
 
     @Override
@@ -62,6 +72,12 @@ public class StepListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("stepList", (ArrayList<? extends Parcelable>) stepList);
     }
 
     /**
