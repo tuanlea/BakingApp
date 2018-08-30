@@ -40,16 +40,16 @@ public class StepDetailsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("step", step);
+    }
+
     public void updateStepDetailsView(Step step) {
         View view = getView();
         TextView descriptionTv = view.findViewById(R.id.step_details_description_tv);
         String description = step.getDescription();
         descriptionTv.setText(description);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("step", step);
     }
 }

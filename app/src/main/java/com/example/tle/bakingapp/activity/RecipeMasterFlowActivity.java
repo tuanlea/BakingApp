@@ -1,5 +1,6 @@
 package com.example.tle.bakingapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -7,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.tle.bakingapp.R;
 import com.example.tle.bakingapp.fragment.IngredientFragment;
@@ -27,6 +27,7 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
     Recipe recipe;
     Step step;
     String recipeParcelName = "recipe";
+    boolean isOnePane;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,14 +41,17 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             this.recipe = getIntent().getParcelableExtra(recipeParcelName);
         }
 
-        if (this.recipe != null) {
-            String name = this.recipe.getName();
-            if (name != null) {
-                setTitle(name);
-            }
+        if (this.recipe == null) {
+            return;
+        }
+
+        String name = this.recipe.getName();
+        if (name != null) {
+            setTitle(name);
         }
 
         List<Step> stepList = this.recipe.getStepList();
+
         Bundle arguments = new Bundle();
         arguments.putParcelableArrayList("stepList", (ArrayList<? extends Parcelable>) stepList);
         StepListFragment stepListFragment = new StepListFragment();
@@ -64,7 +68,12 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
         // Step details fragment
         View view = findViewById(R.id.step_details_fragment_container);
+        isOnePane = true;
         if (view != null) {
+           isOnePane = false;
+        }
+
+        if (!isOnePane) {
             arguments = new Bundle();
             // default to first step
             if (step == null) {
@@ -87,25 +96,11 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
         // Remember the selected step to restore
         this.step = step;
 
-        View detailView = findViewById(R.id.step_details_fragment_container);
-        if (detailView == null) {
-            // Otherwise, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected step
-            StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
-            Bundle args = new Bundle();
-            args.putParcelable("step", step);
-            stepDetailsFragment.setArguments(args);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.step_list_fragment_container, stepDetailsFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
+        if (isOnePane) {
+            // Start another activity to display step details fragment
+            Intent intent = new Intent(this, DisplayStepDetailsFragmentActivity.class);
+            intent.putExtra("step", step);
+            startActivity(intent);
         } else {
             // If article frag is available, we're in two-pane layout...
 
@@ -118,6 +113,7 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Ingredient ingredient) {
+        // No action when an ingredient is clicked
     }
 
     @Override
