@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements GetJsonTaskHandle
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.recipe_fragment_container, recipeFragment);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
     }
 

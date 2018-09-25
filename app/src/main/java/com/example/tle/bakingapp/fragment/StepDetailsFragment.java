@@ -3,7 +3,6 @@ package com.example.tle.bakingapp.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,11 +26,11 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.TransferListener;
 import com.google.android.exoplayer2.util.Util;
 
 public class StepDetailsFragment extends Fragment {
     Step step;
+    SimpleExoPlayer player;
 
     public static StepDetailsFragment newInstance(Step step) {
         Bundle arguments = new Bundle();
@@ -71,8 +70,7 @@ public class StepDetailsFragment extends Fragment {
                 new DefaultTrackSelector(videoTrackSelectionFactory);
 
         // 2. Create the player
-        SimpleExoPlayer player =
-                ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+        player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
 
         // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
@@ -100,4 +98,9 @@ public class StepDetailsFragment extends Fragment {
         outState.putParcelable("step", step);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        player.release();
+    }
 }
