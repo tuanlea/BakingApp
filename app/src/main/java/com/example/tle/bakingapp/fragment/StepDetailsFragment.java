@@ -31,6 +31,9 @@ import com.google.android.exoplayer2.util.Util;
 public class StepDetailsFragment extends Fragment {
     Step step;
     SimpleExoPlayer player;
+    private long playbackPosition;
+    private int currentWindow;
+    private boolean playWhenReady;
 
     public static StepDetailsFragment newInstance(Step step) {
         Bundle arguments = new Bundle();
@@ -85,6 +88,16 @@ public class StepDetailsFragment extends Fragment {
             // Prepare the player with the source.
             player.prepare(videoSource);
 
+            if (savedInstanceState != null) {
+                playbackPosition = savedInstanceState.getLong("playbackPosition", 0);
+                if (playbackPosition > 0) {
+                    player.seekTo(currentWindow, playbackPosition);
+                }
+
+                playWhenReady = savedInstanceState.getBoolean("playWhenReady", false);
+                player.setPlayWhenReady(playWhenReady);
+            }
+
             PlayerView playerView = view.findViewById(R.id.step_details_pv);
             playerView.setPlayer(player);
         }
@@ -92,15 +105,28 @@ public class StepDetailsFragment extends Fragment {
         return view;
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        player.seekTo(playbackPosition);
+//    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        releasePlayer();
         outState.putParcelable("step", step);
+        outState.putLong("playbackPosition", playbackPosition);
+        outState.putBoolean("playWhenReady", playWhenReady);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        player.release();
+    private void releasePlayer() {
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
+            player.release();
+            player = null;
+        }
     }
 }

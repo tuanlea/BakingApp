@@ -1,7 +1,9 @@
 package com.example.tle.bakingapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -48,6 +50,15 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             setTitle(name);
         }
 
+        initializeFragments();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    private void initializeFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -77,7 +88,6 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
             fragmentTransaction.replace(R.id.step_details_fragment_container, stepDetailsFragment);
         }
-
         fragmentTransaction.commit();
     }
 
@@ -90,7 +100,9 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
             // Start another activity to display step details fragment
             Intent intent = new Intent(this, DisplayStepDetailsFragmentActivity.class);
             intent.putExtra("step", step);
-            startActivity(intent);
+            intent.putExtra(recipeParcelName, recipe);
+            setResult(Activity.RESULT_OK, intent);
+            startActivityForResult(intent, Activity.RESULT_OK);
         } else {
             // If article frag is available, we're in two-pane layout...
 
@@ -110,9 +122,16 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putParcelable(recipeParcelName, recipe);
         outState.putParcelable("step", this.step);
+        super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.recipe = savedInstanceState.getParcelable(recipeParcelName);
+        this.step = savedInstanceState.getParcelable("step");
+        initializeFragments();
+    }
 }
