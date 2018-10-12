@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tle.bakingapp.R;
@@ -65,6 +66,11 @@ public class StepDetailsFragment extends Fragment {
         String description = step.getDescription();
         descriptionTv.setText(description);
 
+        if (savedInstanceState != null) {
+            playbackPosition = savedInstanceState.getLong("playbackPosition", 0);
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady", false);
+        }
+
         // 1. Create a default TrackSelector
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
@@ -79,7 +85,9 @@ public class StepDetailsFragment extends Fragment {
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getContext(),
                 Util.getUserAgent(getContext(), "yourApplicationName")
                 );
+
         // This is the MediaSource representing the media to be played.
+        PlayerView playerView = view.findViewById(R.id.step_details_pv);
         String videoURL = step.getVideoURL();
         if (!TextUtils.isEmpty(videoURL)) {
             Uri mp4VideoUri = Uri.parse(videoURL);
@@ -87,19 +95,13 @@ public class StepDetailsFragment extends Fragment {
                     .createMediaSource(mp4VideoUri);
             // Prepare the player with the source.
             player.prepare(videoSource);
-
-            if (savedInstanceState != null) {
-                playbackPosition = savedInstanceState.getLong("playbackPosition", 0);
-                if (playbackPosition > 0) {
-                    player.seekTo(currentWindow, playbackPosition);
-                }
-
-                playWhenReady = savedInstanceState.getBoolean("playWhenReady", false);
-                player.setPlayWhenReady(playWhenReady);
-            }
-
-            PlayerView playerView = view.findViewById(R.id.step_details_pv);
+            player.seekTo(currentWindow, playbackPosition);
+            player.setPlayWhenReady(playWhenReady);
             playerView.setPlayer(player);
+        } else {
+            // Remove the player view when there's no video to play
+            LinearLayout layout = view.findViewById(R.id.step_details_fragment_layout);
+            layout.removeView(playerView);
         }
 
         return view;
