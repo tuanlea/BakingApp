@@ -1,6 +1,9 @@
 package com.example.tle.bakingapp.activity;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -9,7 +12,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RemoteViews;
 
+import com.example.tle.bakingapp.BakingAppAppWidget;
 import com.example.tle.bakingapp.R;
 import com.example.tle.bakingapp.fragment.IngredientFragment;
 import com.example.tle.bakingapp.fragment.StepDetailsFragment;
@@ -51,6 +56,18 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
         }
 
         initializeFragments();
+
+        // update widget with the ingredient
+        updateWidget();
+    }
+
+    private void updateWidget() {
+        Context context = this;
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_app_app_widget);
+        ComponentName thisWidget = new ComponentName(context, BakingAppAppWidget.class);
+        remoteViews.setTextViewText(R.id.appwidget_text, "updated text: " + this.recipe.getName());
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 
     @Override
