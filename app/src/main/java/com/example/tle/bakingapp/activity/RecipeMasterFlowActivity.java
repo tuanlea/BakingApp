@@ -63,10 +63,12 @@ public class RecipeMasterFlowActivity extends AppCompatActivity
 
     private void updateWidget() {
         Context context = this;
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_app_app_widget);
+        remoteViews.setTextViewText(R.id.appwidget_text, "Current recipe: " + this.recipe.getName());
+
         ComponentName thisWidget = new ComponentName(context, BakingAppAppWidget.class);
-        remoteViews.setTextViewText(R.id.appwidget_text, "updated text: " + this.recipe.getName());
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
     }
 
